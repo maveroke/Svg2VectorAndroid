@@ -17,21 +17,26 @@ public class Runner {
         String outputDirectory = "";
 
 
-        if(args.length ==1)
+        if(args.length > 0)
         {
             sourceDirectory = args[0];
+            System.out.println(sourceDirectory);
         }
 
-        if(args.length > 2)
+        if(args.length > 1)
         {
             outputDirectory = args[1];
+            System.out.println(outputDirectory);
         }
 
         if(!sourceDirectory.isEmpty() && !outputDirectory.isEmpty()){
+            System.out.println("Got in multi");
             SvgFilesProcessor processor = new SvgFilesProcessor(sourceDirectory, outputDirectory);
             processor.process();
         }
         else if(!sourceDirectory.isEmpty() ) {
+            System.out.println("Got in single");
+            System.out.println(outputDirectory);
             SvgFilesProcessor processor = new SvgFilesProcessor(sourceDirectory);
             processor.process();
         }
