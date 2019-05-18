@@ -1,44 +1,40 @@
 package com.vector.svg2vectorandroid;
 
+import com.android.ide.common.vectordrawable.Svg2Vector;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.file.*;
 
-/**
- * Created by ravi on 19/12/17.
- */
 public class Runner {
-
-    public static void main(String args[]){
-
+    public static void main(String args[]) throws IOException{
         if(args.length == 0){
             System.out.println(" Provide source directory as first arguement for svg files to be converted\n example: java -jar Svg2VectorAndroid-1.0.jar <SourceDirectoryPath> ");
             return;
         }
-        String sourceDirectory = "";
-        String outputDirectory = "";
-
+        String source = "";
+        String target = "";
 
         if(args.length > 0)
         {
-            sourceDirectory = args[0];
-            System.out.println(sourceDirectory);
+            source = args[0];
         }
 
         if(args.length > 1)
         {
-            outputDirectory = args[1];
-            System.out.println(outputDirectory);
+            target = args[1];
         }
 
-        if(!sourceDirectory.isEmpty() && !outputDirectory.isEmpty()){
-            System.out.println("Got in multi");
-            SvgFilesProcessor processor = new SvgFilesProcessor(sourceDirectory, outputDirectory);
-            processor.process();
-        }
-        else if(!sourceDirectory.isEmpty() ) {
-            System.out.println("Got in single");
-            System.out.println(outputDirectory);
-            SvgFilesProcessor processor = new SvgFilesProcessor(sourceDirectory);
-            processor.process();
+        if(!source.isEmpty() && !target.isEmpty()){
+            if(source.endsWith(".svg")){
+                File sourceFile = new File(source);
+                File targetFile = new File(target);
+                FileOutputStream fileOutputStream = new FileOutputStream(targetFile);
+                Svg2Vector.parseSvgToXml(sourceFile, fileOutputStream);
+            } else {
+                System.out.println("Skipping file as its not svg ");
+            }
         }
     }
 }
